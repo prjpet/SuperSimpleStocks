@@ -8,11 +8,11 @@ class Trade:
         self.stockSym = stockSym
         self.tradeType = tradeType
         self.quantity = quantity
-        self.tradePrice = tradePrice
+        self.price = tradePrice
         self.timestamp = datetime.now()
 
     #TO STRING METHOD (for testing)
     def toString(self):
-        string = "Stock Symbol: " + str(self.stockSym) + ", Trade Type: " + str(self.tradeType) + ", Quantity: " + str(self.quantity) + ", Trade Price: " + str(self.tradePrice) + ", Timestamp: " + str(self.timestamp)
+        string = "Stock Symbol: " + str(self.stockSym) + ", Trade Type: " + str(self.tradeType) + ", Quantity: " + str(self.quantity) + ", Trade Price: " + str(self.price) + ", Timestamp: " + str(self.timestamp)
         print(string) 
     

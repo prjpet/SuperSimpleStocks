@@ -49,10 +49,10 @@ class Stock:
         
     def buyStock(self, amountIn):
         #calls on the Trade class which will be either a buy or sell trade
-        return Trade(self.stockSym, "BUY", amountIn, self.currentMarketPrice*float(amountIn))
+        return Trade(self.stockSym, "BUY", amountIn, self.currentMarketPrice)
         
         
     def sellStock(self, amountIn):
         #calls on the Trade class which will be either a buy or sell trade
-        return Trade(self.stockSym, "SELL", amountIn, self.currentMarketPrice*float(amountIn))
+        return Trade(self.stockSym, "SELL", amountIn, self.currentMarketPrice)
         

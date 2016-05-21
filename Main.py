@@ -98,12 +98,15 @@ if __name__ == '__main__':
     #Step 7.: Register Trade
     if (tradeTypeIn.upper() == "BUY"):
 
-      myTradesManager.appendNewTrade(myStockManager.listOfStocks[currentStock].buyStock(amountToDeal))
+      myTradesManager.appendNewTrade(myStockManager.listOfStocks[currentStock].buyStock(int(amountToDeal)))
+      myTradesManager.updateVWAPLastFifteen(currentStock)
       myTradesManager.allTradesToString()
+      
 
     elif(tradeTypeIn.upper() == "SELL"):
 
-      myTradesManager.appendNewTrade(myStockManager.listOfStocks[currentStock].sellStock(amountToDeal))
+      myTradesManager.appendNewTrade(myStockManager.listOfStocks[currentStock].sellStock(int(amountToDeal)))
+      myTradesManager.updateVWAPLastFifteen(currentStock)
       myTradesManager.allTradesToString()
 
         
