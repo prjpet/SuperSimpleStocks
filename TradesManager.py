@@ -6,6 +6,7 @@ class TradesManager:
     #CLASS INITIALISATION
     def __init__(self):
         self.tradeRecord = {}
+        self.vwapLastFifteen = {}
         
 
     #PUBLIC POPULATE FUNCTIONS
@@ -18,25 +19,24 @@ class TradesManager:
         else:
             #the very first trade needs to be wrapped into a list
             self.tradeRecord[tradeToAppend.stockSym] = [tradeToAppend]
-            
 
-    #PUBLIC CALC FUNCTIONS
-    def volumeWeightedStockPrice(self):
+        #each and every trade should generate the recalculation of the VWSP
+        calcVWAP(15, stockSym)
 
-        if (len(self.tradeRecord) > 0):
-            timeLimit = datetime.now()-datetime.timedelta(minutes=15)
-            print(timeLimit)
+    #PRIVATE CALC FUNCTIONS
+    def calcCWAP(self, period, stockSym):
+        
+        timeLimit = datetime.now()-datetime.timedelta(minutes=period)
+        print(timeLimit)
 
-            #iterate through all available trades
-            for trade in self.tradeRecord:
+        #iterate through all available trades for the specific stockSym
+        for tradeList in self.tradeRecord[stockSym]:
+            for trade in tradeList:
                 #if timestamp is less than time limit (i.e.: less than 15 minutes before now)
                 if (trade.timestamp < timeLimit):
-                    print("Dummy")
+                    
 
-            
-        #else:
-            #the value would be 0 anyway if there aren't any trades
-            
+                
 
     #TO STRING (for testing)
     def allTradesToString(self):
