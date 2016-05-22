@@ -5,12 +5,13 @@ from TradesManager import TradesManager
 from StockManager import StockManager
 from Utilities import Utilities
 
+
 #PROGRAM FLOW:
 prompt1 = "Please choose one of the available stocks (from above) for trading: "
 prompt2 = "Only the displayed stock symbols are accepted. Try again."
 
 prompt3 = "Please input current market price for stock "
-prompt4 = "Only numerical (float - dot separated) input is accepted. Try again."
+prompt4 = "Only numerical (float - dot separated) input is accepted, which is bigger than 0. Try again."
 
 prompt5 = "Register Trade: Buy or Sell?"
 prompt6 = "Only the words buy or sell are accepted. Try again."
@@ -33,7 +34,7 @@ if __name__ == '__main__':
     currentStock = myUtilities.displayUserPrompt(prompt1, prompt2, myUtilities.STOCKNAME).upper()
     
     #..and ask for the current market price for it:
-    floatIn = myUtilities.displayUserPrompt(prompt3 + currentStock, prompt4, myUtilities.ISFLOAT)
+    floatIn = myUtilities.displayUserPrompt(prompt3 + currentStock, prompt4, myUtilities.ISVALIDPRICE)
     
     #Step 3.: store the given price in Stock Class
     myStockManager.listOfStocks[currentStock].setCurrentMarketPrice(float(floatIn))
@@ -56,11 +57,9 @@ if __name__ == '__main__':
     if (tradeTypeIn.upper() == "BUY"):
 
       myTradesManager.appendNewTrade(myStockManager.listOfStocks[currentStock].buyStock(int(amountToDeal)))
-      myTradesManager.updateVWAPLastFifteen(currentStock)
       myTradesManager.displayAllData()
       
     elif(tradeTypeIn.upper() == "SELL"):
 
       myTradesManager.appendNewTrade(myStockManager.listOfStocks[currentStock].sellStock(int(amountToDeal)))
-      myTradesManager.updateVWAPLastFifteen(currentStock)
       myTradesManager.displayAllData()

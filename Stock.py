@@ -5,6 +5,9 @@ from Trade import Trade
 
 class Stock:
 
+    COMMON = "Common"
+    PREFERRED = "Preferred"
+
 #CLASS INITIALISATION
     def __init__(self, stockSym, stockType, lastDiv, fixedDiv, parVal):
         self.stockSym = stockSym
@@ -19,7 +22,7 @@ class Stock:
         
 #PUBLIC SET FUNCTIONS
     def setCurrentMarketPrice(self, number):
-        self.currentMarketPrice = number
+        self.currentMarketPrice = float(number)
 
 #PUBLIC CALC FUNCTIONS
 
@@ -30,9 +33,9 @@ class Stock:
         #NOTE: avoid 0 division
         if (self.currentMarketPrice != 0):
         
-            return {"Common": self.lastDiv/self.currentMarketPrice,
+            return {self.COMMON: self.lastDiv/self.currentMarketPrice,
                          
-                    "Preferred": self.fixedDiv*self.parVal/self.currentMarketPrice
+                    self.PREFERRED: self.fixedDiv*self.parVal/self.currentMarketPrice
                     #then return the value from the dict based on actual stock type
                     }[self.stockType]
         
@@ -59,4 +62,8 @@ class Stock:
     def sellStock(self, amountIn):
         #calls on the Trade class which will be either a buy or sell trade
         return Trade(self.stockSym, "SELL", amountIn, self.currentMarketPrice)
-        
+
+    def toString(self):
+        string = "Stock Symbol: " + str(self.stockSym) + ", Stock Type: " + str(self.stockType) + ", Last Dividend: " + str(self.lastDiv) + ", Fixed Dividend: " + str(self.fixedDiv) + ", Par Val: " + str(self.parVal) + ", Current Price: " + str(self.currentMarketPrice)
+
+        print(string) 

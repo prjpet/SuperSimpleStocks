@@ -1,10 +1,10 @@
 import datetime
+import functools
 
 class TradesManager:
     #CLASS INITIALISATION
     def __init__(self, myStockManager):
         self.tradeRecord = {}
-        self.vwapLastFifteen = {}
         self.myStockManager = myStockManager
 
     #PUBLIC POPULATE FUNCTIONS
@@ -17,10 +17,6 @@ class TradesManager:
         else:
             #the very first trade needs to be wrapped into a list
             self.tradeRecord[tradeToAppend.stockSym] = [tradeToAppend]
-
-    def updateVWAPLastFifteen(self, stockSym):
-        #for simplicity each and every trade will generate the recalculation of the VWAP
-        self.vwapLastFifteen[stockSym] = self.calculateVWAP(15, stockSym)
 
     #PRIVATE CALC FUNCTIONS
     def calculateVWAP(self, period, stockSym):
@@ -36,21 +32,39 @@ class TradesManager:
             #if timestamp is more than time limit (i.e.: less than 15 minutes before now)
             if (trade.timestamp > timeLimit):
                 
-                sumOfTradePriceQuantity += float(trade.quantity)*trade.price
+                sumOfTradePriceQuantity += trade.quantity*trade.price
                 sumOfVolume += trade.quantity
 
         return sumOfTradePriceQuantity/sumOfVolume
 
     def calculateGBCEAllShareIndex(self):
-        print("")
+        listOfPrices = []
+        #depending on whether the stock has been traded already, include it in the calculation
+        #we have already made sure that all the values will be more than 0 if once traded
+        for stock in self.myStockManager.listOfStocks:
+            if (self.myStockManager.listOfStocks[stock].currentMarketPrice != 0):
+               listOfPrices.append(self.myStockManager.listOfStocks[stock].currentMarketPrice)
+
+        #using the reduce function for better efficiency collate the numbers included in the list together
+        #and using formula (1*2*...n)**(1/n) return geometric mean
+        #for better accuracy, external open source libraries could be used
+               
+        return (functools.reduce(lambda x, y: x*y, listOfPrices))**(1.0/len(listOfPrices))
 
     #TO STRING
     def displayAllData(self):
         for stock in self.tradeRecord:
+            print("---------------------------------------------------------------")
+            print("Trades for " + stock + " stock:")
+            print("---------------------------------------------------------------")
             #for each trade / stock display the trade details
             for item in self.tradeRecord[stock]:
                 item.toString()
             #after displaying all trades display the current VWAP
-            print("The VWAP of trades from the last 15 mins is: ", self.vwapLastFifteen[stock])
-
+            print("---------------------------------------------------------------")
+            print("The VWAP of trades for " + stock + " from the last 15 mins is: ", self.calculateVWAP(15, stock))
+            print("---------------------------------------------------------------")
         #and last, display GBCE All Share Index
+        print("----------------------------------------------------------")          
+        print("The GBCE All Share Index for all the shares is: ", self.calculateGBCEAllShareIndex())
+        print("----------------------------------------------------------") 

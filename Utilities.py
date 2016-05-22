@@ -3,14 +3,14 @@
 #then the data structure will be passed as an argument to the class upon initialisation
 
 class Utilities:
-    ISFLOAT = "isfloat"
+    ISVALIDPRICE = "isvalidprice"
     BUYORSELL = "buyorsell"
     AMOUNT = "amount"
     STOCKNAME = "stockname"
 
     def __init__(self, StockManager):
         self.myStockManager = StockManager
-        self.verificationMap = {self.ISFLOAT: self.isfloat,
+        self.verificationMap = {self.ISVALIDPRICE: self.isValidPrice,
                                 self.BUYORSELL: self.verifyBuyOrSell,
                                 self.AMOUNT: self.verifyAmount,
                                 self.STOCKNAME: self.verifyStockName
@@ -19,7 +19,8 @@ class Utilities:
     #PUBLIC DISPLAY METHODS
     def displayWelcome(self, dictOfStocks):
       for stock in dictOfStocks:
-        print(stock)
+        dictOfStocks[stock].toString()
+      print("---------------------------------------------------------------")
         
     def displayUserPrompt(self, promptText, failureText, verificationMethod):
         print(promptText)
@@ -28,7 +29,6 @@ class Utilities:
 
         return userInput
 
-    
     #This method below uses one of the other methods to verify the validity of user input
     #the verification method is selected using the mapping of class constants to the method
 
@@ -42,12 +42,21 @@ class Utilities:
         return receivedText
 
     #PRIVATE VERIFICATION FUNCTIONS MAPPED TO CONSTANTS in __init__
-    def isfloat(self, value):
+
+    def isValidPrice(self, value):
+    #price has to be >0 and float value
+    #0 price is for stocks which have not been traded before
+      result = False
       try:
         float(value)
-        return True
+        result = True
       except:
-        return False
+        result = False
+
+      if (not((result == True) and (float(value) > 0))):
+          result = False
+          
+      return result
 
     def verifyBuyOrSell(self, string):
       if (string.upper() == "BUY") or (string.upper() == "SELL"):
@@ -56,11 +65,19 @@ class Utilities:
         return False
 
     def verifyAmount(self, value):
+      #amount has to be bigger than 0 and int value
+      #0 price is for stocks which have not been traded before
+      result = False
       try:
         int(value)
-        return True
+        result = True
       except:
-        return False
+        result = False
+
+      if (not((result == True) and (int(value) > 0))):
+          result = False
+          
+      return result
 
     def verifyStockName(self, string):
       if string.upper() in self.myStockManager.listOfStocks:
