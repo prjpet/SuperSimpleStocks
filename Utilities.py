@@ -1,6 +1,8 @@
 #THe utilities class has been made to incorporate all of the verification methods
 #If the utilities class is doing any verification on existing data structures
 #then the data structure will be passed as an argument to the class upon initialisation
+from TradesManager import TradesManager
+
 
 class Utilities:
     ISVALIDPRICE = "isvalidprice"
@@ -59,7 +61,7 @@ class Utilities:
       return result
 
     def verifyBuyOrSell(self, string):
-      if (string.upper() == "BUY") or (string.upper() == "SELL"):
+      if (string.upper() == TradesManager.BUY) or (string.upper() == TradesManager.SELL):
         return True
       else:
         return False

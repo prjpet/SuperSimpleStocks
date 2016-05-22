@@ -2,6 +2,9 @@ import datetime
 import functools
 
 class TradesManager:
+    BUY = "BUY"
+    SELL = "SELL"
+    
     #CLASS INITIALISATION
     def __init__(self, myStockManager):
         self.tradeRecord = {}

@@ -40,26 +40,26 @@ if __name__ == '__main__':
     myStockManager.listOfStocks[currentStock].setCurrentMarketPrice(float(floatIn))
 
     #Step 4.: Calculate and display Dividend Yield
-    print("The dividend yield of stock based on stock price and stock type is:")
-    print(myStockManager.listOfStocks[currentStock].calculateDividendYield())
-
+    print("---------------------------------------------------------------")
+    print("The dividend yield of stock based on stock price and stock type is: ", myStockManager.listOfStocks[currentStock].calculateDividendYield())
+    print("---------------------------------------------------------------")
     #Step 5.: Calculate and display P/E Ratio
-    print("The P/E ratio of stock based on stock price and last dividend is:")
-    print(myStockManager.listOfStocks[currentStock].calculatePERatio())
+    print("The P/E ratio of stock based on stock price and last dividend is: ", myStockManager.listOfStocks[currentStock].calculatePERatio())
+    print("---------------------------------------------------------------")
 
     #Step 6.: Record a Trade. Buy or Sell?
-    tradeTypeIn = myUtilities.displayUserPrompt(prompt5, prompt6, myUtilities.BUYORSELL)
+    tradeTypeIn = myUtilities.displayUserPrompt(prompt5, prompt6, myUtilities.BUYORSELL).upper()
 
     #Step 7.: Amount?
-    amountToDeal = myUtilities.displayUserPrompt(prompt7, prompt8, myUtilities.AMOUNT)
+    amountToDeal = int(myUtilities.displayUserPrompt(prompt7, prompt8, myUtilities.AMOUNT))
     
     #Step 7.: Register Trade
-    if (tradeTypeIn.upper() == "BUY"):
+    if (tradeTypeIn == myTradesManager.BUY):
 
-      myTradesManager.appendNewTrade(myStockManager.listOfStocks[currentStock].buyStock(int(amountToDeal)))
+      myTradesManager.appendNewTrade(myStockManager.listOfStocks[currentStock].buyStock(amountToDeal))
       myTradesManager.displayAllData()
       
-    elif(tradeTypeIn.upper() == "SELL"):
+    elif(tradeTypeIn == myTradesManager.SELL):
 
-      myTradesManager.appendNewTrade(myStockManager.listOfStocks[currentStock].sellStock(int(amountToDeal)))
+      myTradesManager.appendNewTrade(myStockManager.listOfStocks[currentStock].sellStock(amountToDeal))
       myTradesManager.displayAllData()
