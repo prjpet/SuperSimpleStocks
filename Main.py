@@ -1,61 +1,27 @@
 import sys
+
 from Stock import Stock
 from TradesManager import TradesManager
 from StockManager import StockManager
-
-
-def isfloat(value):
-  try:
-    float(value)
-    return True
-  except:
-    return False
-
-def verifyBuyOrSell(string):
-  if (string.upper() == "BUY") or (string.upper() == "SELL"):
-    return True
-  else:
-    return False
-
-def verifyAmount(value):
-  try:
-    int(value)
-    return True
-  except:
-    return False
-
-def displayAllStocks(dictOfStocks):
-  for stock in dictOfStocks:
-    print(stock)
-
-def verifyStockName(string, dictOfStocks):
-  if string in dictOfStocks:
-      return True
-  else:
-      return False
+from Utilities import Utilities
 
 #Referring to __main__ in order to make Main class re-usable in future
 if __name__ == '__main__':
-  #Step 0.: Initialise TradesManager and StockManager
+  #Step 0.: Initialise TradesManager and StockManager and Utitlities
   myTradesManager = TradesManager()
   myStockManager = StockManager()
-  
+  myUtilities = Utilities(myStockManager)
+
+  #Trigger new trade cycle for manual input of trades
   while(True):
     
     #Step 1.: Display all available stocks and prompt user to choose one:
     print("Please choose one of the following stocks for trading (or type ex to terminate): ")
-    displayAllStocks(myStockManager.listOfStocks)
+    myUtilities.displayAllStocks(myStockManager.listOfStocks)
 
     stockToTradeIn = input("-->")
-    while (not verifyStockName(stockToTradeIn.upper(), myStockManager.listOfStocks)) and (not (stockToTradeIn.upper() == "ex".upper())):
-        print("Only the displayed stock symbols or ""ex"" are accepted. Try again.")
-        stockToTradeIn = input("-->")
-
-    #Terminate application on ex
-    if (stockToTradeIn.upper() == "ex".upper()):
-      sys.exit()
-
-    
+    stockToTradeIn = myUtilities.verifyUserInput(stockToTradeIn, "stockname", "Only the displayed stock symbols or ""ex"" are accepted. Try again.")
+   
     #Step 2.: To be able to keep currentStock variable from 1. Commit:
     currentStock = stockToTradeIn.upper()
     #..and ask for the current market price...
@@ -63,9 +29,7 @@ if __name__ == '__main__':
 
     #...until a number is given in float format.
     floatIn = input("-->")
-    while (not isfloat(floatIn)):
-        print("Only numerical (float - dot separated) input is accepted. Try again.")
-        floatIn = input("-->")
+    floatIn = myUtilities.verifyUserInput(floatIn, "isfloat", "Only numerical (float - dot separated) input is accepted. Try again.")
 
     #Step 3.: store the given price in Stock Class
     myStockManager.listOfStocks[currentStock].setCurrentMarketPrice(float(floatIn))
@@ -82,19 +46,14 @@ if __name__ == '__main__':
     print("Buy or Sell? (Please type either buy / sell below):")
     #...until the input is the correct word.
     tradeTypeIn = input("-->")
-    while (not verifyBuyOrSell(tradeTypeIn)):
-        print("Only the words buy or sell are accepted. Try again.")
-        tradeTypeIn = input("-->")
+    tradeTypeIn = myUtilities.verifyUserInput(tradeTypeIn, "buyorsell", "Only the words buy or sell are accepted. Try again.")
 
     #Step 7.: Amount?
     print("Please enter amount to buy or sell as a whole number: ")
     #...until the input is valid amount.
     amountToDeal = input("-->")
-    while (not verifyAmount(amountToDeal)):
-        print("Only whole numbers are accepted. Try again.")
-        amountToDeal = input("-->")
-
-        
+    amountToDeal = myUtilities.verifyUserInput(amountToDeal, "amount", "Only whole numbers are accepted. Try again.")
+  
     #Step 7.: Register Trade
     if (tradeTypeIn.upper() == "BUY"):
 
@@ -102,11 +61,8 @@ if __name__ == '__main__':
       myTradesManager.updateVWAPLastFifteen(currentStock)
       myTradesManager.allTradesToString()
       
-
     elif(tradeTypeIn.upper() == "SELL"):
 
       myTradesManager.appendNewTrade(myStockManager.listOfStocks[currentStock].sellStock(int(amountToDeal)))
       myTradesManager.updateVWAPLastFifteen(currentStock)
       myTradesManager.allTradesToString()
-
-        
