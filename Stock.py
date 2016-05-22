@@ -12,6 +12,10 @@ class Stock:
         self.lastDiv = lastDiv
         self.fixedDiv = fixedDiv
         self.parVal = parVal
+
+        #current market price is 0 until the stock is traded. if it's 0 it is not included
+        #in the GBCE All Share Index calculations
+        self.currentMarketPrice = 0
         
 #PUBLIC SET FUNCTIONS
     def setCurrentMarketPrice(self, number):

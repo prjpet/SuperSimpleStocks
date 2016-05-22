@@ -5,32 +5,36 @@ from TradesManager import TradesManager
 from StockManager import StockManager
 from Utilities import Utilities
 
-#Referring to __main__ in order to make Main class re-usable in future
+#PROGRAM FLOW:
+prompt1 = "Please choose one of the available stocks (from above) for trading: "
+prompt2 = "Only the displayed stock symbols are accepted. Try again."
+
+prompt3 = "Please input current market price for stock "
+prompt4 = "Only numerical (float - dot separated) input is accepted. Try again."
+
+prompt5 = "Register Trade: Buy or Sell?"
+prompt6 = "Only the words buy or sell are accepted. Try again."
+
+prompt7 = "Please enter amount traded as a whole number: "
+prompt8 = "Only whole numbers are accepted. Try again."
+
 if __name__ == '__main__':
-  #Step 0.: Initialise TradesManager and StockManager and Utitlities
-  myTradesManager = TradesManager()
+
+  #Step 0.: Build list of stocks by StockManager, create Trade Manager and Utitlities
   myStockManager = StockManager()
+  myTradesManager = TradesManager(myStockManager)
   myUtilities = Utilities(myStockManager)
 
   #Trigger new trade cycle for manual input of trades
   while(True):
+    myUtilities.displayWelcome(myStockManager.listOfStocks)
     
     #Step 1.: Display all available stocks and prompt user to choose one:
-    print("Please choose one of the following stocks for trading (or type ex to terminate): ")
-    myUtilities.displayAllStocks(myStockManager.listOfStocks)
-
-    stockToTradeIn = input("-->")
-    stockToTradeIn = myUtilities.verifyUserInput(stockToTradeIn, "stockname", "Only the displayed stock symbols or ""ex"" are accepted. Try again.")
-   
-    #Step 2.: To be able to keep currentStock variable from 1. Commit:
-    currentStock = stockToTradeIn.upper()
-    #..and ask for the current market price...
-    print("Please input current market price for " + currentStock + " stock:")
-
-    #...until a number is given in float format.
-    floatIn = input("-->")
-    floatIn = myUtilities.verifyUserInput(floatIn, "isfloat", "Only numerical (float - dot separated) input is accepted. Try again.")
-
+    currentStock = myUtilities.displayUserPrompt(prompt1, prompt2, myUtilities.STOCKNAME).upper()
+    
+    #..and ask for the current market price for it:
+    floatIn = myUtilities.displayUserPrompt(prompt3 + currentStock, prompt4, myUtilities.ISFLOAT)
+    
     #Step 3.: store the given price in Stock Class
     myStockManager.listOfStocks[currentStock].setCurrentMarketPrice(float(floatIn))
 
@@ -43,26 +47,20 @@ if __name__ == '__main__':
     print(myStockManager.listOfStocks[currentStock].calculatePERatio())
 
     #Step 6.: Record a Trade. Buy or Sell?
-    print("Buy or Sell? (Please type either buy / sell below):")
-    #...until the input is the correct word.
-    tradeTypeIn = input("-->")
-    tradeTypeIn = myUtilities.verifyUserInput(tradeTypeIn, "buyorsell", "Only the words buy or sell are accepted. Try again.")
+    tradeTypeIn = myUtilities.displayUserPrompt(prompt5, prompt6, myUtilities.BUYORSELL)
 
     #Step 7.: Amount?
-    print("Please enter amount to buy or sell as a whole number: ")
-    #...until the input is valid amount.
-    amountToDeal = input("-->")
-    amountToDeal = myUtilities.verifyUserInput(amountToDeal, "amount", "Only whole numbers are accepted. Try again.")
-  
+    amountToDeal = myUtilities.displayUserPrompt(prompt7, prompt8, myUtilities.AMOUNT)
+    
     #Step 7.: Register Trade
     if (tradeTypeIn.upper() == "BUY"):
 
       myTradesManager.appendNewTrade(myStockManager.listOfStocks[currentStock].buyStock(int(amountToDeal)))
       myTradesManager.updateVWAPLastFifteen(currentStock)
-      myTradesManager.allTradesToString()
+      myTradesManager.displayAllData()
       
     elif(tradeTypeIn.upper() == "SELL"):
 
       myTradesManager.appendNewTrade(myStockManager.listOfStocks[currentStock].sellStock(int(amountToDeal)))
       myTradesManager.updateVWAPLastFifteen(currentStock)
-      myTradesManager.allTradesToString()
+      myTradesManager.displayAllData()
