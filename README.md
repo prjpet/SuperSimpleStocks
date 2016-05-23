@@ -2,9 +2,9 @@
 A super simple stock trading software.
 
 Assumptions:
-1. Stock price will not be 0, unless stock has not been traded before. Stock price can't be less than 0.
+- Stock price will not be 0, unless stock has not been traded before. Stock price can't be less than 0.
 
-2. Amount of stocks traded can't be 0 or less.
+- Amount of stocks traded can't be 0 or less.
 	
 Documentation:
 - The programmer has made every effort to produce easy to understand source code which also functions as documentation. Start with Main to understand program flow.
