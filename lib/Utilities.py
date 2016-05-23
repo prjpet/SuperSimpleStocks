@@ -1,7 +1,7 @@
 #THe utilities class has been made to incorporate all of the verification methods
 #If the utilities class is doing any verification on existing data structures
 #then the data structure will be passed as an argument to the class upon initialisation
-from TradesManager import TradesManager
+from lib.TradesManager import TradesManager
 
 
 class Utilities:

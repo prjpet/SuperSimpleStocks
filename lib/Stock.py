@@ -1,7 +1,7 @@
 #This class is created to represent the different types of stocks available
 #It provides the following functions:
 #1. Stores the stock name, type Last Dividend, Fixed Dividend, Par Value parameters
-from Trade import Trade
+from lib.Trade import Trade
 
 class Stock:
 
