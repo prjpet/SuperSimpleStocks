@@ -1,9 +1,7 @@
-import sys
-
-from Stock import Stock
-from TradesManager import TradesManager
-from StockManager import StockManager
-from Utilities import Utilities
+from lib.Stock import Stock
+from lib.TradesManager import TradesManager
+from lib.StockManager import StockManager
+from lib.Utilities import Utilities
 
 
 #PROGRAM FLOW:
