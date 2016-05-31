@@ -12,7 +12,29 @@ Documentation:
 - Created using Python 3.4.3 (i.e.: requires the 3.4.3 interpreter at least)
 	
 Working mechanism (see example_run.png for more details):
-- The software is operated manually - thanks to the modular design, automated functionality is easy to implement but not a requirement.
+
+AUTOMATIC INPUT (Main_Auto.py - added on 30/05/2016):
+- The sole purpose of automatic functionality implementation is to prove that the calculations are correct
+
+- The user now has the ability to create a list of trades in an Excel spreadsheet - same format as given in TradesSource.csv
+
+- The excel spreadsheet can be used to verify calculations
+
+- Only the first 5 columns are used - if they are in incorrect format, all errors SHOULD BE handled
+
+- The first 4 columns are self-explaining: 
+		- Stock Symbol (in case of error trade won't register in TradesManager and line will be excluded from counting)
+		- Price (will be 1 in case of error)
+		- Buy or Sell Indicator (in case of error trade won't register in TradesManager and line will be excluded from counting)
+		- Quantity (will be 1 in case of error)
+		
+- The 5th column gives the ability to manipulate trade timestamp
+
+- The number represents minutes (can only be integer format, can also be negative value - will be 0 in case of error)
+
+- The first trade for each share has to be with a "0" timedelta to allow AllShareIndex calculations (if value higher than 14, will be made 0)
+
+MANUAL INPUT (Main.py):
 	
 - Upon running the compiling the Main() block, the user is presented with the given information about the shares.
 	

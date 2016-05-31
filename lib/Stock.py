@@ -16,6 +16,8 @@ class Stock:
         self.fixedDiv = fixedDiv
         self.parVal = parVal
 
+        self.timeDelta = 0
+
         #current market price is 0 until the stock is traded. if it's 0 it is not included
         #in the GBCE All Share Index calculations
         self.currentMarketPrice = 0
@@ -54,14 +56,14 @@ class Stock:
 #these set of functions will return an instance of the trade class passing relevant data to the class
 #args: Stock Symbol, Trade type, traded amount, calculated trade price - at the moment the Trade class is instantiated it is timestamped within the Init block
         
-    def buyStock(self, amountIn):
+    def buyStock(self, amountIn, timeDelta = 0):
         #calls on the Trade class which will be either a buy or sell trade
-        return Trade(self.stockSym, "BUY", amountIn, self.currentMarketPrice)
+        return Trade(self.stockSym, "BUY", amountIn, self.currentMarketPrice, timeDelta)
         
         
-    def sellStock(self, amountIn):
+    def sellStock(self, amountIn, timeDelta = 0):
         #calls on the Trade class which will be either a buy or sell trade
-        return Trade(self.stockSym, "SELL", amountIn, self.currentMarketPrice)
+        return Trade(self.stockSym, "SELL", amountIn, self.currentMarketPrice, timeDelta)
 
     def toString(self):
         string = "Stock Symbol: " + str(self.stockSym) + ", Stock Type: " + str(self.stockType) + ", Last Dividend: " + str(self.lastDiv) + ", Fixed Dividend: " + str(self.fixedDiv) + ", Par Val: " + str(self.parVal) + ", Current Price: " + str(self.currentMarketPrice)

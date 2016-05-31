@@ -62,7 +62,8 @@ class TradesManager:
             print("---------------------------------------------------------------")
             #for each trade / stock display the trade details
             for item in self.tradeRecord[stock]:
-                item.toString()
+                #Display trade number also - for convenient tracking of errors
+                print(self.tradeRecord[stock].index(item)+1, ": ", item.toString())
             #after displaying all trades display the current VWAP
             print("---------------------------------------------------------------")
             print("The VWAP of trades for " + stock + " from the last 15 mins is: ", self.calculateVWAP(15, stock))
